@@ -1,0 +1,70 @@
+{
+  "name": "react-hover-observer",
+  "version": "1.0.0",
+  "description": "A React component that notifies its children of hover interactions.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethanselzer/react-hover-observer.git"
+  },
+  "author": "Ethan Selzer <ethanselzer@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ethanselzer/react-hover-observer/issues"
+  },
+  "homepage": "https://github.com/ethanselzer/react-hover-observer",
+  "keywords": [
+    "react mouseEnter",
+    "react mouseOver",
+    "mouseEnter",
+    "mouseOver",
+    "react hover intent",
+    "hover intent"
+  ],
+  "main": "dist/ReactHoverObserver.js",
+  "files": [
+      "dist/ReactHoverObserver.js",
+      "LICENCE"
+  ],
+  "scripts": {
+    "prepublish": "babel --plugins 'transform-es2015-modules-umd' src --out-dir ./dist",
+    "lint": "eslint ./src",
+    "lintfix": "eslint ./src --fix",
+    "testonly": "mocha --require scripts/mocha_runner test/*spec.js",
+    "test": "npm run lint && npm run testonly",
+    "test-watch": "npm run testonly -- --watch --watch-extensions js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.4",
+    "babel-core": "^6.7.4",
+    "babel-eslint": "^6.0.2",
+    "babel-plugin-transform-es2015-modules-umd": "^6.6.5",
+    "babel-polyfill": "^6.7.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-2": "^6.5.0",
+    "chai": "^3.5.0",
+    "enzyme": "^2.2.0",
+    "eslint": "^2.7.0",
+    "eslint-plugin-babel": "^3.1.0",
+    "eslint-plugin-react": "^4.2.3",
+    "jsdom": "^8.1.0",
+    "lodash.isfunction": "^3.0.8",
+    "lodash.noop": "^3.0.1",
+    "mocha": "^2.4.5",
+    "nodemon": "^1.9.1",
+    "react": "^15.0.0",
+    "react-addons-test-utils": "^15.3.1",
+    "react-dom": "^15.0.0",
+    "sinon": "^1.17.3"
+  },
+  "peerDependencies": {
+    "react": "~0.14.8 || ^15.0.0",
+    "react-dom": "~0.14.8 || ^15.0.0"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.6.1",
+    "lodash.assign": "^4.2.0",
+    "lodash.noop": "^3.0.1",
+    "lodash.omit": "^4.5.0"
+  }
+}
