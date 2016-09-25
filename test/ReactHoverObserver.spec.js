@@ -29,10 +29,12 @@ describe('ReactHoverObserver', () => {
         expect(reactHoverObserver.instance().constructor.getDefaultProps()).to.deep.equal({
             hoverDelayInMs: 0,
             hoverOffDelayInMs: 0,
+            onHoverChanged: noop,
             onMouseEnter: noop,
             onMouseLeave: noop,
             onMouseOver: noop,
-            onMouseOut: noop
+            onMouseOut: noop,
+            shouldDecorateChildren: true
         });
     });
 
@@ -41,7 +43,7 @@ describe('ReactHoverObserver', () => {
     });
 
     it('decorates child components with isHovering prop', (done) => {
-        const renderedTree = getRenderedComponentTree('onMouseEnter', onMouseEnter);
+        const renderedTree = getRenderedComponentTree({ onMouseEnter });
         const el = renderedTree.find('div');
 
         el.simulate('mouseEnter');
@@ -57,23 +59,80 @@ describe('ReactHoverObserver', () => {
         }
     });
 
+    it('does not decorate child DOM nodes with isHovering prop', (done) => {
+        const renderedTree = getRenderedComponentTree({ onMouseEnter });
+        const el = renderedTree.find('div');
+
+        el.simulate('mouseEnter');
+
+        function onMouseEnter({ setIsHovering }) {
+            setIsHovering();
+            setTimeout(() => {
+                expect(renderedTree.find('hr').props()).to.be.empty
+                done();
+            }, 0);
+        }
+    });
+
     describe('Props API', () => {
         it('supports className', () => {
-            const tree = getRenderedComponentTree('className', 'foo');
+            const tree = getRenderedComponentTree({ className: 'foo' });
 
             expect(tree.find('div').hasClass('foo')).to.equal(true);
         });
 
         it('supports hoverDelayInMs', () => {
-            const tree = getRenderedComponentTree('hoverDelayInMs', 100);
+            const tree = getRenderedComponentTree({ hoverDelayInMs: 100 });
 
             expect(tree.props().hoverDelayInMs).to.equal(100);
         });
 
         it('supports hoverOffDelayInMs', () => {
-            const tree = getRenderedComponentTree('hoverOffDelayInMs', 200);
+            const tree = getRenderedComponentTree({ hoverOffDelayInMs: 200 });
 
             expect(tree.props().hoverOffDelayInMs).to.equal(200);
+        });
+
+        describe('support for onHoverChanged', () => {
+            it('calls onHoverChanged when hovering', (done) => {
+                const tree = getRenderedComponentTree({
+                    onHoverChanged,
+                    onMouseEnter: ({ setIsHovering }) => setIsHovering()
+                });
+                const el = tree.find('div');
+
+                el.simulate('mouseEnter');
+
+                function onHoverChanged({ isHovering }) {
+                    expect(isHovering).to.be.true;
+                    done();
+                }
+            });
+
+            it('calls onHoverChanged when hovering off', (done) => {
+                const tree = getRenderedComponentTree({
+                    onHoverChanged,
+                    onMouseEnter: ({ unsetIsHovering }) => unsetIsHovering()
+                });
+                const el = tree.find('div');
+
+                el.simulate('mouseEnter');
+
+                function onHoverChanged({ isHovering }) {
+                    expect(isHovering).to.be.false;
+                    done();
+                }
+            });
+        });
+
+        it('supports shouldDecorateChildren, which optionally suppresses decoration of child components when unset', () => {
+            const tree = getRenderedComponentTree({ shouldDecorateChildren: false });
+            const childComponent = tree.find(GenericSpanComponent);
+            const el = tree.find('div');
+
+            el.simulate('mouseEnter');
+
+            expect(childComponent.props()).to.be.empty;
         });
 
         describe('#onMouseEnter', () => {
@@ -95,7 +154,7 @@ describe('ReactHoverObserver', () => {
         function verify(eventName, observerName) {
             it(`observes ${eventName} events`, () => {
                 const spy = sinon.spy();
-                const renderedTree = getRenderedComponentTree(observerName, spy);
+                const renderedTree = getRenderedComponentTree({ [observerName]: spy });
                 const el = renderedTree.find('div');
 
                 el.simulate(eventName);
@@ -105,7 +164,7 @@ describe('ReactHoverObserver', () => {
 
             it('receives three parameters - (event Object, setIsHovering Function, unsetIsHovering Function)', () => {
                 const spy = sinon.spy();
-                const renderedTree = getRenderedComponentTree(observerName, spy);
+                const renderedTree = getRenderedComponentTree({ [observerName]: spy });
                 const el = renderedTree.find('div');
 
                 el.simulate(eventName);
@@ -117,7 +176,7 @@ describe('ReactHoverObserver', () => {
             });
 
             it('sets isHovering decoration to true, when observer function invokes setIsHovering parameter', (done) => {
-                const renderedTree = getRenderedComponentTree(observerName, listener);
+                const renderedTree = getRenderedComponentTree({ [observerName]: listener });
                 const childComponent = renderedTree.find(GenericSpanComponent);
                 const el = renderedTree.find('div');
                 expect(childComponent.props()).to.deep.equal({ isHovering: false });
@@ -135,7 +194,7 @@ describe('ReactHoverObserver', () => {
             });
 
             it('sets isHovering decoration to false, when observer function invokes unsetIsHovering parameter', (done) => {
-                const renderedTree = getRenderedComponentTree(observerName, listener);
+                const renderedTree = getRenderedComponentTree({ [observerName]: listener });
                 renderedTree.instance().setState({ isHovering: true });
                 const el = renderedTree.find('div');
                 const childComponent = renderedTree.find(GenericSpanComponent);
@@ -155,12 +214,11 @@ describe('ReactHoverObserver', () => {
         }
     });
 
-    function getRenderedComponentTree(prop, value) {
+    function getRenderedComponentTree(props) {
         const tree = (
-            <ReactHoverObserver { ...{
-                [prop]: value
-            }}>
+            <ReactHoverObserver { ...props }>
                 <GenericSpanComponent />
+                <hr />
             </ReactHoverObserver>
         );
 

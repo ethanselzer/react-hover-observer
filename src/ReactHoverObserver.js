@@ -11,10 +11,12 @@ export default React.createClass({
         return {
             hoverDelayInMs: 0,
             hoverOffDelayInMs: 0,
+            onHoverChanged: noop,
             onMouseEnter: noop,
             onMouseLeave: noop,
             onMouseOver: noop,
-            onMouseOut: noop
+            onMouseOut: noop,
+            shouldDecorateChildren: true
         };
     },
 
@@ -22,10 +24,12 @@ export default React.createClass({
         className: PropTypes.string,
         hoverDelayInMs: PropTypes.number,
         hoverOffDelayInMs: PropTypes.number,
+        onHoverChanged: PropTypes.func,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
         onMouseOver: PropTypes.func,
-        onMouseOut: PropTypes.func
+        onMouseOut: PropTypes.func,
+        shouldDecorateChildren: PropTypes.bool
     },
 
     getInitialState() {
@@ -70,8 +74,9 @@ export default React.createClass({
         clearTimeout(this.hoverOffScheduleId);
 
         this.hoverScheduleId = setTimeout(() => {
-            this.setState({
-                isHovering: true
+            const newState = { isHovering: true };
+            this.setState(newState, () => {
+                this.props.onHoverChanged(newState)
             });
         }, this.props.hoverDelayInMs);
     },
@@ -80,15 +85,28 @@ export default React.createClass({
         clearTimeout(this.hoverScheduleId);
 
         this.hoverOffScheduleId = setTimeout(() => {
-            this.setState({
-                isHovering: false
+            const newState = { isHovering: false };
+            this.setState(newState, () => {
+                this.props.onHoverChanged(newState);
             });
         }, this.props.hoverOffDelayInMs);
     },
 
+    isReactComponent(reactElement) {
+        return typeof reactElement.type === 'function';
+    },
+
+    shouldDecorateChild(child) {
+        return this.isReactComponent(child) && this.props.shouldDecorateChildren;
+    },
+
+    decorateChild(child, props) {
+        return cloneElement(child, props);
+    },
+
     renderChildrenWithProps(children, props) {
         return Children.map(children, (child) => {
-            return cloneElement(child, props);
+            return this.shouldDecorateChild(child) ? this.decorateChild(child, props) : child;
         });
     },
 
@@ -102,10 +120,12 @@ export default React.createClass({
                 'className',
                 'hoverDelayInMs',
                 'hoverOffDelayInMs',
+                'onHoverChanged',
                 'onMouseEnter',
                 'onMouseLeave',
                 'onMouseOver',
-                'onMouseOut'
+                'onMouseOut',
+                'shouldDecorateChildren'
             ])
         );
 

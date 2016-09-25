@@ -43,6 +43,11 @@ for triggering hover events.
 
 `hoverOffDelayInMs` : Number [optional] - Milliseconds to delay hover-off trigger. Defaults to zero.
 
+`onHoverChanged`: Function [optional] - Called with named argument `isHovering` when isHovering is set or unset.
+
+`shouldDecorateChildren` : Boolean [optional] - Defaults to true. Optionally suppress decoration of child components by
+setting this prop false.
+
 One or more of the following observer functions is required. There is not a default setting.
 
 `onMouseEnter` : Function
