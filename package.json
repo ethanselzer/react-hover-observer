@@ -1,6 +1,6 @@
 {
   "name": "react-hover-observer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A React component that notifies its children of hover interactions.",
   "repository": {
     "type": "git",
@@ -22,8 +22,8 @@
   ],
   "main": "dist/ReactHoverObserver.js",
   "files": [
-      "dist/ReactHoverObserver.js",
-      "LICENCE"
+    "dist/ReactHoverObserver.js",
+    "LICENCE"
   ],
   "scripts": {
     "prepublish": "babel --plugins 'transform-es2015-modules-umd' src --out-dir ./dist",
