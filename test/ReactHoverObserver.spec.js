@@ -214,6 +214,36 @@ describe('ReactHoverObserver', () => {
         }
     });
 
+    describe('Cleanup on Teardown', () => {
+        it('calls clearTimers in componentWillUnmount', () => {
+            const hoverObserver = reactHoverObserver.instance();
+            sinon.spy(hoverObserver, 'clearTimers');
+
+            hoverObserver.componentWillUnmount();
+
+            expect(hoverObserver.clearTimers.calledOnce).to.be.true;
+            hoverObserver.clearTimers.restore;
+        });
+
+        it('calls clearTimeout in clearTimers', () => {
+            const hoverObserver = reactHoverObserver.instance();
+            hoverObserver.timerIds.push(1);
+
+            hoverObserver.clearTimers();
+
+            expect(window.clearTimeout.calledWith(1)).to.be.true;
+        });
+
+        it('drains timer id queue', () => {
+            const hoverObserver = reactHoverObserver.instance();
+            hoverObserver.timerIds.push(1, 2);
+
+            hoverObserver.clearTimers();
+
+            expect(hoverObserver.timerIds.length).to.equal(0);
+        });
+    });
+
     function getRenderedComponentTree(props) {
         const tree = (
             <ReactHoverObserver { ...props }>

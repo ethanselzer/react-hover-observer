@@ -7,6 +7,8 @@ export default React.createClass({
 
     displayName: 'ReactHoverObserver',
 
+    timerIds: [],
+
     getDefaultProps() {
         return {
             hoverDelayInMs: 0,
@@ -70,26 +72,41 @@ export default React.createClass({
         });
     },
 
-    setIsHovering() {
-        clearTimeout(this.hoverOffScheduleId);
+    componentWillUnmount() {
+        this.clearTimers();
+    },
 
-        this.hoverScheduleId = setTimeout(() => {
+    setIsHovering() {
+        this.clearTimers();
+
+        const hoverScheduleId = setTimeout(() => {
             const newState = { isHovering: true };
             this.setState(newState, () => {
                 this.props.onHoverChanged(newState)
             });
         }, this.props.hoverDelayInMs);
+
+        this.timerIds.push(hoverScheduleId);
     },
 
     unsetIsHovering() {
-        clearTimeout(this.hoverScheduleId);
+        this.clearTimers();
 
-        this.hoverOffScheduleId = setTimeout(() => {
+        const hoverOffScheduleId = setTimeout(() => {
             const newState = { isHovering: false };
             this.setState(newState, () => {
                 this.props.onHoverChanged(newState);
             });
         }, this.props.hoverOffDelayInMs);
+
+        this.timerIds.push(hoverOffScheduleId);
+    },
+
+    clearTimers() {
+        const ids = this.timerIds;
+        while (ids.length) {
+            window.clearTimeout(ids.pop());
+        }
     },
 
     isReactComponent(reactElement) {
