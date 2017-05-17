@@ -222,16 +222,18 @@ describe('ReactHoverObserver', () => {
             hoverObserver.componentWillUnmount();
 
             expect(hoverObserver.clearTimers.calledOnce).to.be.true;
-            hoverObserver.clearTimers.restore;
+            hoverObserver.clearTimers.restore();
         });
 
         it('calls clearTimeout in clearTimers', () => {
             const hoverObserver = reactHoverObserver.instance();
+            sinon.spy(window, 'clearTimeout')
             hoverObserver.timerIds.push(1);
 
             hoverObserver.clearTimers();
 
             expect(window.clearTimeout.calledWith(1)).to.be.true;
+            window.clearTimeout.restore();
         });
 
         it('drains timer id queue', () => {
