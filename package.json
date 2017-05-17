@@ -47,7 +47,7 @@
     "eslint": "^2.7.0",
     "eslint-plugin-babel": "^3.1.0",
     "eslint-plugin-react": "^4.2.3",
-    "jsdom": "^8.1.0",
+    "jsdom": "10.1.0",
     "lodash.isfunction": "^3.0.8",
     "lodash.noop": "^3.0.1",
     "mocha": "^2.4.5",
