@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default React.createClass({
+export default class extends React.Component {
 
-    displayName: 'GenericSpanComponent',
+    static displayName = 'GenericSpanComponent';
 
     render() {
         return (<span />);
     }
-});
+};

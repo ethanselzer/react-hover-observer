@@ -9,7 +9,7 @@ import GenericSpanComponent from './support/GenericSpanComponent';
 import noop from '../src/utils/noop';
 
 describe('ReactHoverObserver', () => {
-    let reactHoverObserver;
+    let reactHoverObserver = shallow(<ReactHoverObserver />);
 
     beforeEach(() => {
         reactHoverObserver = shallow(<ReactHoverObserver/>);
@@ -20,13 +20,13 @@ describe('ReactHoverObserver', () => {
     });
 
     it('has correct initial state', () => {
-        expect(reactHoverObserver.instance().getInitialState()).to.deep.equal({
+        expect(reactHoverObserver.state()).to.deep.equal({
             isHovering: false
         });
     });
 
     it('has correct default props', () => {
-        expect(reactHoverObserver.instance().constructor.getDefaultProps()).to.deep.equal({
+        expect(reactHoverObserver.instance().constructor.defaultProps).to.deep.equal({
             hoverDelayInMs: 0,
             hoverOffDelayInMs: 0,
             onHoverChanged: noop,
@@ -42,7 +42,7 @@ describe('ReactHoverObserver', () => {
         expect(reactHoverObserver.type()).to.equal('div');
     });
 
-    it('decorates child components with isHovering prop', (done) => {
+    it('decorates child components with isHovering prop', (done) =>  {
         const renderedTree = getRenderedComponentTree({ onMouseEnter });
         const el = renderedTree.find('div');
 
@@ -53,6 +53,7 @@ describe('ReactHoverObserver', () => {
 
             setTimeout(() => {
                 const childComponent = renderedTree.find(GenericSpanComponent);
+                console.log('childComponent', childComponent.props())
                 expect(childComponent.props()).to.deep.equal({ isHovering: true });
                 done();
             }, 0);
