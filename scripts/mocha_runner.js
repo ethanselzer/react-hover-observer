@@ -9,4 +9,5 @@ global.navigator = {
     userAgent: 'node.js'
 };
 
+process.env.BABEL_ENV = 'cjs';
 require('babel-core/register');
