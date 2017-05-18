@@ -48,7 +48,6 @@
     "eslint-plugin-react": "7.0.1",
     "jsdom": "10.1.0",
     "lodash.isfunction": "3.0.8",
-    "lodash.noop": "3.0.1",
     "mocha": "3.4.1",
     "react": "15.5.4",
     "react-dom": "15.5.4",
@@ -59,9 +58,8 @@
     "react": "~0.14.9 || ^15.0.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.6.1",
-    "lodash.assign": "^4.2.0",
-    "lodash.noop": "^3.0.1",
-    "lodash.omit": "^4.5.0"
+    "object-assign": "^4.1.1",
+    "object.omit": "^2.0.1",
+    "prop-types": "^15.5.10"
   }
 }

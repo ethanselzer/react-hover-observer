@@ -1,7 +1,8 @@
 import React, {Children, cloneElement, PropTypes} from 'react';
-import assign from 'lodash.assign';
-import noop from 'lodash.noop';
-import omit from 'lodash.omit';
+import assign from 'object-assign';
+import omit from 'object.omit';
+
+import noop from './utils/noop';
 
 export default React.createClass({
 

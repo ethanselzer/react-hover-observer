@@ -1,12 +1,12 @@
 import React from 'react';
 import isFunction from 'lodash.isfunction';
-import noop from 'lodash.noop';
 import {shallow, mount, render} from 'enzyme';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
 import ReactHoverObserver from '../src/ReactHoverObserver';
 import GenericSpanComponent from './support/GenericSpanComponent';
+import noop from '../src/utils/noop';
 
 describe('ReactHoverObserver', () => {
     let reactHoverObserver;
