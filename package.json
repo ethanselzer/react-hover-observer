@@ -13,11 +13,10 @@
   },
   "homepage": "https://github.com/ethanselzer/react-hover-observer",
   "keywords": [
-    "react mouseEnter",
-    "react mouseOver",
-    "mouseEnter",
-    "mouseOver",
-    "react hover intent",
+    "react",
+    "mouseenter",
+    "mouseover",
+    "hover",
     "hover intent"
   ],
   "main": "dist/ReactHoverObserver.js",
