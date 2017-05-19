@@ -30,8 +30,8 @@ export default class extends React.Component {
         hoverDelayInMs: 0,
         hoverOffDelayInMs: 0,
         onHoverChanged: noop,
-        onMouseEnter: noop,
-        onMouseLeave: noop,
+        onMouseEnter: ({ setIsHovering }) => setIsHovering(),
+        onMouseLeave: ({ unsetIsHovering }) => unsetIsHovering(),
         onMouseOver: noop,
         onMouseOut: noop,
         shouldDecorateChildren: true

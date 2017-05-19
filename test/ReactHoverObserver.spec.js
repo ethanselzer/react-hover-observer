@@ -26,16 +26,25 @@ describe('ReactHoverObserver', () => {
     });
 
     it('has correct default props', () => {
-        expect(reactHoverObserver.instance().constructor.defaultProps).to.deep.equal({
-            hoverDelayInMs: 0,
-            hoverOffDelayInMs: 0,
-            onHoverChanged: noop,
-            onMouseEnter: noop,
-            onMouseLeave: noop,
-            onMouseOver: noop,
-            onMouseOut: noop,
-            shouldDecorateChildren: true
-        });
+        const {
+            constructor: {
+                defaultProps
+            }
+        } = reactHoverObserver.instance();
+        const onMouseEnterSpy = sinon.spy();
+        const onMouseLeaveSpy = sinon.spy();
+
+        defaultProps.onMouseEnter({ setIsHovering: onMouseEnterSpy });
+        defaultProps.onMouseLeave({ unsetIsHovering: onMouseLeaveSpy });
+
+        expect(defaultProps.hoverDelayInMs).to.equal(0);
+        expect(defaultProps.hoverOffDelayInMs).to.equal(0);
+        expect(defaultProps.onHoverChanged).to.equal(noop);
+        expect(onMouseEnterSpy.calledOnce).to.be.true;
+        expect(onMouseLeaveSpy.calledOnce).to.be.true;
+        expect(defaultProps.onMouseOver).to.equal(noop);
+        expect(defaultProps.onMouseOut).to.equal(noop);
+        expect(defaultProps.shouldDecorateChildren).to.be.true;
     });
 
     it('renders a single HTML div element', () => {
