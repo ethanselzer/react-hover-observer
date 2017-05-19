@@ -6,6 +6,15 @@ Optionally observe mouseenter, mouseleave, mouseover, and mouseout events.
 
 Supports delaying hover and hover-off, which can help reduce unintentional triggering.
 
+## Status
+
+[![CircleCI](https://img.shields.io/circleci/project/github/ethanselzer/react-hover-observer.svg)](https://circleci.com/gh/ethanselzer/react-hover-observer)
+[![Coverage Status](https://coveralls.io/repos/github/ethanselzer/react-hover-observer/badge.svg?branch=master)](https://coveralls.io/github/ethanselzer/react-hover-observer?branch=master)
+[![npm](https://img.shields.io/npm/v/react-hover-observer.svg)](https://www.npmjs.com/package/react-hover-observer)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+## Demo
+
 ## Installation
 
 ```sh
