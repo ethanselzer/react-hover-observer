@@ -135,7 +135,7 @@ describe('ReactHoverObserver', () => {
             });
         });
 
-        it('supports shouldDecorateChildren, which optionally suppresses decoration of child components when unset', () => {
+        it('supports shouldDecorateChildren', () => {
             const tree = getRenderedComponentTree({ shouldDecorateChildren: false });
             const childComponent = tree.find(GenericSpanComponent);
             const el = tree.find('div');
@@ -237,13 +237,13 @@ describe('ReactHoverObserver', () => {
 
         it('calls clearTimeout in clearTimers', () => {
             const hoverObserver = reactHoverObserver.instance();
-            sinon.spy(window, 'clearTimeout')
+            sinon.spy(global, 'clearTimeout')
             hoverObserver.timerIds.push(1);
 
             hoverObserver.clearTimers();
 
-            expect(window.clearTimeout.calledWith(1)).to.be.true;
-            window.clearTimeout.restore();
+            expect(global.clearTimeout.calledWith(1)).to.be.true;
+            global.clearTimeout.restore();
         });
 
         it('drains timer id queue', () => {

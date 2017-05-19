@@ -114,7 +114,7 @@ export default class extends React.Component {
     clearTimers() {
         const ids = this.timerIds;
         while (ids.length) {
-            window.clearTimeout(ids.pop());
+            clearTimeout(ids.pop());
         }
     }
 
