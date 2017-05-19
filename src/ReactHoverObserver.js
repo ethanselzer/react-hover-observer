@@ -23,6 +23,7 @@ export default class extends React.Component {
 
         this.timerIds = [];
     }
+
     static displayName = 'ReactHoverObserver';
 
     static defaultProps = {
