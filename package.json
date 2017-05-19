@@ -34,7 +34,8 @@
     "test": "npm run lint && npm run test-only",
     "test-only": "BABEL_ENV=test mocha --require babel-core/register --require test/support/jsdom test/*spec.js",
     "test-watch": "npm run test-only -- --watch --watch-extensions js",
-    "test-coverage": "nyc --reporter=lcov npm run test-only  && nyc report"
+    "test-coverage": "rimraf coverage && nyc --reporter=lcov npm run test-only  && nyc report",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "nyc": {
     "sourceMap": false,
@@ -54,6 +55,7 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-2": "6.24.1",
     "chai": "3.5.0",
+    "coveralls": "^2.13.1",
     "enzyme": "2.8.2",
     "eslint": "3.19.0",
     "eslint-plugin-react": "7.0.1",
