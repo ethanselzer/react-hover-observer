@@ -62,7 +62,6 @@ describe('ReactHoverObserver', () => {
 
             setTimeout(() => {
                 const childComponent = renderedTree.find(GenericSpanComponent);
-                console.log('childComponent', childComponent.props())
                 expect(childComponent.props()).to.deep.equal({ isHovering: true });
                 done();
             }, 0);
@@ -157,7 +156,7 @@ describe('ReactHoverObserver', () => {
             verify('mouseOver', 'onMouseOver');
         });
 
-        describe('#onMouseLeave', () => {
+        describe('#onMouseOut', () => {
             verify('mouseOut', 'onMouseOut');
         });
 
@@ -222,6 +221,42 @@ describe('ReactHoverObserver', () => {
                 }
             });
         }
+    });
+
+    describe('Hoverintent', () => {
+        beforeEach(function() {
+            this.clock = sinon.useFakeTimers();
+        });
+
+        afterEach(function() {
+            this.clock.restore();
+        });
+
+        it('delays setting isHovering', function() {
+            reactHoverObserver.setProps({ hoverDelayInMs: 1000 });
+            const el = reactHoverObserver.find('div');
+
+            el.simulate('mouseEnter');
+            this.clock.tick(500);
+            expect(reactHoverObserver.state('isHovering')).to.be.false;
+            this.clock.tick(1001);
+            expect(reactHoverObserver.state('isHovering')).to.be.true;
+        });
+
+        it('delays unsetting isHovering', function () {
+            reactHoverObserver.setProps({ hoverDelayInMs: 0, hoverOffDelayInMs: 1000 });
+            const el = reactHoverObserver.find('div');
+
+            el.simulate('mouseEnter');
+            this.clock.tick();
+            expect(reactHoverObserver.state('isHovering')).to.be.true;
+            el.simulate('mouseLeave');
+            this.clock.tick(500);
+            expect(reactHoverObserver.state('isHovering')).to.be.true;
+            this.clock.tick(1001);
+            expect(reactHoverObserver.state('isHovering')).to.be.false;
+        });
+
     });
 
     describe('Cleanup on Teardown', () => {
