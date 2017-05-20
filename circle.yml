@@ -20,4 +20,4 @@ test:
     - yarn test
 
 post:
-    - yarn run coveralls
+    - yarn run test-coverage && yarn run coveralls
