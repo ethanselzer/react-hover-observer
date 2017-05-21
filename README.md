@@ -4,7 +4,7 @@ A React component that notifies its children of hover interactions.
 
 Optionally observe mouseenter, mouseleave, mouseover, and mouseout events.
 
-Supports delaying hover and hover-off, which can help reduce unintentional triggering.
+Supports delayed hover and hover-off, which can help reduce unintentional triggering.
 
 ## Status
 
@@ -14,6 +14,10 @@ Supports delaying hover and hover-off, which can help reduce unintentional trigg
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Demo
+Experiment with this editable [example on CodePen](https://codepen.io/ethanselzer/pen/XRyJgq).
+
+## Related Project
+For mouse or touch position monitoring, please consider [react-cursor-position](https://github.com/ethanselzer/react-cursor-position). It has a similar interface to this project, and can be used in combination with it.
 
 ## Installation
 
@@ -23,26 +27,19 @@ npm install --save react-hover-observer
 
 ## Usage
 
-Intended as a primitive for composing features that require notification of
-hover events.
-
 ```JSX
 import ReactHoverObserver from 'react-hover-observer';
 
 export default () => (
-    <ReactHoverObserver {{...
-        onMouseEnter: ({ setIsHovering }) => setIsHovering(),
-        onMouseLeave: ({ unsetIsHovering }) => unsetIsHovering()
-    }}>
-        Add your components here!
+    <ReactHoverObserver>
+        <YourChildComponent />
     </ReactHoverObserver>
 );
 ```
 
-Each child component receives a Boolean prop named `isHovering`.
+Each child component of ReactHoverObserver receives a Boolean prop named `isHovering`.
 
-react-hover-observer wraps its children in a div, which is the boundary
-for triggering hover events.
+react-hover-observer wraps its children in a div, which is the boundary for triggering hover events.
 
 ### Props API
 
@@ -54,26 +51,25 @@ for triggering hover events.
 
 `onHoverChanged`: Function [optional] - Called with named argument `isHovering` when isHovering is set or unset.
 
-`shouldDecorateChildren` : Boolean [optional] - Defaults to true. Optionally suppress decoration of child components by
-setting this prop false.
+`shouldDecorateChildren` : Boolean [optional] - Defaults to true. Optionally suppress decoration of child components by setting this prop false.
 
-One or more of the following observer functions is required. There is not a default setting.
+`onMouseEnter` : Function [optional] - Defaults to set isHovering.
 
-`onMouseEnter` : Function
+`onMouseLeave` : Function [optional] - Defaults to unsetting isHovering.
 
-`onMouseLeave` : Function
+`onMouseOver` : Function [optional]
 
-`onMouseOver` : Function
+`onMouseOut` : Function [optional]
 
-`onMouseOut` : Function
+Each of the previous four observer functions receives a prameter of type Object with the following properties:
 
-Each observer function receives three named parameters: `({ event, setIsHovering, unsetIsHovering })`.
+* `e` : Object - The browser event object (React synthetic event).
 
-* `event` : Object - The browser event object (React synthetic event).
+* `setIsHovering` : Function - Call this function to set `isHovering` to true.
 
-* `setIsHovering` : Function - Call this function to set the state of `isHovering` to true.
+* `unsetIsHovering` : Function - Call this function to set `isHovering` to false.
 
-* `unsetIsHovering` : Function - Call this function to set the state of `isHovering` to false.
+See [this example](https://codepen.io/ethanselzer/pen/KmrywY) for more detail and explanation.
 
 ### onMouseEnter/onMouseLeave versus onMouseOver/onMouseOut
 
@@ -81,19 +77,19 @@ Each observer function receives three named parameters: `({ event, setIsHovering
 
 `onMouseOver` and `onMouseOut` *are* triggered by hover events bubbling up from child elements.
 
-The behavior is determined by browser implementation of `mouseenter`/`mouseleave` and `mouseover`/`mouseout`.
+The behavior is determined by mouse event Web standards.
 See the [docs at MDN](https://developer.mozilla.org/en-US/docs/Web/Events/mouseenter) for more.
 
 ## Support
 
-Please [open an issue](https://github.com/ethanselzer/react-cursor-position/issues).
+Please [open an issue](https://github.com/ethanselzer/react-hover-observer/issues).
 
 ## Development
 
 ```ssh
-git clone https://github.com/ethanselzer/react-cursor-position.git
-cd react-cursor-position
-npm install
+git clone https://github.com/ethanselzer/react-hover-observer.git
+cd react-hover-observer
+yarn
 ```
 See available commands:
 ```ssh
@@ -103,7 +99,7 @@ npm run
 ## Contributing
 
 Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch,
-add commits, and [open a pull request](https://github.com/ethanselzer/react-cursor-position/compare/).
+add commits, and [open a pull request](https://github.com/ethanselzer/react-hover-observer/compare/).
 
 ## License
 
