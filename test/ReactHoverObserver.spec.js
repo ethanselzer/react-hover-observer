@@ -171,7 +171,7 @@ describe('ReactHoverObserver', () => {
                 expect(spy.calledOnce).to.equal(true);
             });
 
-            it('receives three parameters - (event Object, setIsHovering Function, unsetIsHovering Function)', () => {
+            it('receives three parameters - (e Object, setIsHovering Function, unsetIsHovering Function)', () => {
                 const spy = sinon.spy();
                 const renderedTree = getRenderedComponentTree({ [observerName]: spy });
                 const el = renderedTree.find('div');
