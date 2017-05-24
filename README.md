@@ -14,7 +14,11 @@ Supports delayed hover and hover-off, which can help reduce unintentional trigge
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Demo
-Experiment with this editable [example on CodePen](https://codepen.io/ethanselzer/pen/XRyJgq).
+Experiment with these editable examples on CodePen.
+* [Basic Example](http://codepen.io/ethanselzer/pen/pPGdgx) - See react-hover-observer in action and how child components receive the isHovering prop.
+* [onMouseOver example](http://codepen.io/ethanselzer/pen/KmrywY) - One use case for onMouseOver and onMouseOut is to control hover state when child components are hovered.
+* [onHoverChanged example](http://codepen.io/ethanselzer/pen/MmLmYE) - Implement onHoverChanged when a parent component or global store should be notified of hover changes.
+* [hoverDelayInMs and hoverOffDelayInMs](http://codepen.io/ethanselzer/pen/KmJXLR) - Implement these props to help reduce unintended hovers.
 
 ## Related Project
 For mouse or touch position monitoring, please consider [react-cursor-position](https://github.com/ethanselzer/react-cursor-position). It has a similar interface to this project, and can be used in combination with it.
@@ -45,11 +49,11 @@ react-hover-observer wraps its children in a div, which is the boundary for trig
 
 `className` : String [optional] - A CSS class to be applied to the div rendered by react-hover-observer.
 
-`hoverDelayInMs` : Number [optional] - Milliseconds to delay hover trigger. Defaults to zero.
+`hoverDelayInMs` : Number [optional] - Milliseconds to delay hover trigger. Defaults to zero. See the [hoverDelayInMs example](http://codepen.io/ethanselzer/pen/KmJXLR) for more.
 
 `hoverOffDelayInMs` : Number [optional] - Milliseconds to delay hover-off trigger. Defaults to zero.
 
-`onHoverChanged`: Function [optional] - Called with named argument `isHovering` when isHovering is set or unset.
+`onHoverChanged`: Function [optional] - Called with named argument `isHovering` when isHovering is set or unset. See the [onHoverChanged example](http://codepen.io/ethanselzer/pen/MmLmYE) for more.
 
 `shouldDecorateChildren` : Boolean [optional] - Defaults to true. Optionally suppress decoration of child components by setting this prop false.
 
@@ -57,7 +61,7 @@ react-hover-observer wraps its children in a div, which is the boundary for trig
 
 `onMouseLeave` : Function [optional] - Defaults to unsetting isHovering.
 
-`onMouseOver` : Function [optional]
+`onMouseOver` : Function [optional] - See the [onMouseOver example](http://codepen.io/ethanselzer/pen/KmrywY) for more.
 
 `onMouseOut` : Function [optional]
 
@@ -69,9 +73,9 @@ Each of the previous four observer functions receives a prameter of type Object 
 
 * `unsetIsHovering` : Function - Call this function to set `isHovering` to false.
 
-See [this example](https://codepen.io/ethanselzer/pen/KmrywY) for more detail and explanation.
+`onMouseOver` and `onMouseOut` can be used to control hover state when child components are hovered. See the [onMouseOver example](https://codepen.io/ethanselzer/pen/KmrywY) for more.
 
-### onMouseEnter/onMouseLeave versus onMouseOver/onMouseOut
+### onMouseEnter/onMouseLeave Versus onMouseOver/onMouseOut
 
 `onMouseEnter` and `onMouseLeave` *are not* triggered by hover events bubbling up from child elements.
 
