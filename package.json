@@ -21,7 +21,7 @@
   ],
   "main": "dist/ReactHoverObserver.js",
   "files": [
-    "dist/ReactHoverObserver.js",
+    "dist",
     "LICENCE"
   ],
   "scripts": {
