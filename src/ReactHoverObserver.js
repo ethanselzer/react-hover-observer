@@ -123,7 +123,11 @@ export default class extends React.Component {
     }
 
     shouldDecorateChild(child) {
-        return this.isReactComponent(child) && this.props.shouldDecorateChildren;
+        return (
+            !!child &&
+            this.isReactComponent(child) &&
+            this.props.shouldDecorateChildren
+        );
     }
 
     decorateChild(child, props) {

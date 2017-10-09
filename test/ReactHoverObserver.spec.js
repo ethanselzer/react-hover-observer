@@ -8,6 +8,7 @@ import ReactHoverObserver from '../src/ReactHoverObserver';
 import GenericSpanComponent from './support/GenericSpanComponent';
 import noop from '../src/utils/noop';
 
+
 describe('ReactHoverObserver', () => {
     let reactHoverObserver = shallow(<ReactHoverObserver />);
 
@@ -61,6 +62,7 @@ describe('ReactHoverObserver', () => {
             setIsHovering();
 
             setTimeout(() => {
+                renderedTree.update();
                 const childComponent = renderedTree.find(GenericSpanComponent);
                 expect(childComponent.props()).to.deep.equal({ isHovering: true });
                 done();
@@ -81,6 +83,18 @@ describe('ReactHoverObserver', () => {
                 done();
             }, 0);
         }
+    });
+
+    it('supports child component that renders null', () => {
+        function mountNullChild() {
+            mount(
+                <ReactHoverObserver>
+                    {false}
+                </ReactHoverObserver>
+            );
+        }
+
+        expect(mountNullChild).to.not.throw();
     });
 
     describe('Props API', () => {
@@ -196,6 +210,8 @@ describe('ReactHoverObserver', () => {
                     setIsHovering();
 
                     setTimeout(() => {
+                        renderedTree.update();
+                        const childComponent = renderedTree.find(GenericSpanComponent);
                         expect(childComponent.props()).to.deep.equal({ isHovering: true });
                         done();
                     }, 0);
@@ -205,6 +221,7 @@ describe('ReactHoverObserver', () => {
             it('sets isHovering decoration to false, when observer function invokes unsetIsHovering parameter', (done) => {
                 const renderedTree = getRenderedComponentTree({ [observerName]: listener });
                 renderedTree.instance().setState({ isHovering: true });
+                renderedTree.update();
                 const el = renderedTree.find('div');
                 const childComponent = renderedTree.find(GenericSpanComponent);
                 expect(childComponent.props()).to.deep.equal({ isHovering: true });
@@ -215,6 +232,8 @@ describe('ReactHoverObserver', () => {
                     unsetIsHovering();
 
                     setTimeout(() => {
+                        renderedTree.update();
+                        const childComponent = renderedTree.find(GenericSpanComponent);
                         expect(childComponent.props()).to.deep.equal({ isHovering: false });
                         done();
                     }, 0);
