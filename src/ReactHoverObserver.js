@@ -135,6 +135,10 @@ export default class extends React.Component {
     }
 
     renderChildrenWithProps(children, props) {
+        if (typeof children === 'function') {
+            return (children(props));
+        }
+
         return Children.map(children, (child) => {
             return this.shouldDecorateChild(child) ? this.decorateChild(child, props) : child;
         });

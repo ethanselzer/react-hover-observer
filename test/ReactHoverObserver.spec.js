@@ -97,6 +97,24 @@ describe('ReactHoverObserver', () => {
         expect(mountNullChild).to.not.throw();
     });
 
+    it('supports function as child component', (done) =>  {
+        const renderedTree = getFunctionAsChildRenderedComponentTree({ onMouseEnter });
+        const el = renderedTree.find('div');
+
+        el.simulate('mouseEnter');
+
+        function onMouseEnter({ setIsHovering }) {
+            setIsHovering();
+
+            setTimeout(() => {
+                renderedTree.update();
+                const childComponent = renderedTree.find(GenericSpanComponent);
+                expect(childComponent.props()).to.deep.equal({ isHovering: true });
+                done();
+            }, 0);
+        }
+    });
+
     describe('Props API', () => {
         it('supports className', () => {
             const tree = getRenderedComponentTree({ className: 'foo' });
@@ -315,6 +333,16 @@ describe('ReactHoverObserver', () => {
             <ReactHoverObserver { ...props }>
                 <GenericSpanComponent />
                 <hr />
+            </ReactHoverObserver>
+        );
+
+        return mount(tree);
+    }
+
+    function getFunctionAsChildRenderedComponentTree(props) {
+        const tree = (
+            <ReactHoverObserver { ...props }>
+                {(props) => (<GenericSpanComponent {...props} />)}
             </ReactHoverObserver>
         );
 

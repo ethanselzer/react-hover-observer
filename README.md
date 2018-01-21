@@ -21,7 +21,7 @@ Experiment with these editable examples on CodePen.
 * [hoverDelayInMs and hoverOffDelayInMs](http://codepen.io/ethanselzer/pen/KmJXLR) - Implement these props to help reduce unintended hovers.
 
 ## Related Project
-For mouse or touch position monitoring, please consider [react-cursor-position](https://github.com/ethanselzer/react-cursor-position). It has a similar interface to this project, and can be used in combination with it.
+For mouse or touch position monitoring, please consider [react-cursor-position](https://github.com/ethanselzer/react-cursor-position).
 
 ## Installation
 
@@ -44,6 +44,17 @@ export default () => (
 Each child component of ReactHoverObserver receives a Boolean prop named `isHovering`.
 
 react-hover-observer wraps its children in a div, which is the boundary for triggering hover events.
+
+Optionally implement the function as child component pattern. This is especially useful if your component has an incompatible interface with react-hover-observer.
+```JSX
+export default () => (
+    <ReactHoverObserver>
+        {({ isHovering }) => (
+            <YourChildComponent isActive={isHovering} />
+        )}
+    </ReactHoverObserver>
+);
+```
 
 ### Props API
 
