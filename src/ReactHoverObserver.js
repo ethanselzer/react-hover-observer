@@ -118,8 +118,8 @@ export default class extends React.Component {
         }
     }
 
-    getIsReactComponent(reactElement) {	
-        return typeof reactElement.type === 'function';	
+    getIsReactComponent(reactElement) {
+        return typeof reactElement.type === 'function';
     }
 
     shouldDecorateChild(child) {
