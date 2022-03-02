@@ -34,7 +34,8 @@ export default class extends React.Component {
         onMouseLeave: ({ unsetIsHovering }) => unsetIsHovering(),
         onMouseOver: noop,
         onMouseOut: noop,
-        shouldDecorateChildren: true
+        shouldDecorateChildren: true,
+        wrapper: ({children, ...props}) => <div {...props}>{children}</div>
     };
 
     static propTypes = {
@@ -46,7 +47,8 @@ export default class extends React.Component {
         onMouseLeave: PropTypes.func,
         onMouseOver: PropTypes.func,
         onMouseOut: PropTypes.func,
-        shouldDecorateChildren: PropTypes.bool
+        shouldDecorateChildren: PropTypes.bool,
+        wrapper: PropTypes.element
     };
 
     onMouseEnter(e) {
@@ -145,7 +147,7 @@ export default class extends React.Component {
     }
 
     render() {
-        const { children, className } = this.props;
+        const { children, className, wrapper: Wrapper } = this.props;
         const childProps = assign(
             {},
             { isHovering: this.state.isHovering },
@@ -164,7 +166,7 @@ export default class extends React.Component {
         );
 
         return (
-            <div { ...{
+            <Wrapper { ...{
                 className,
                 onMouseEnter: this.onMouseEnter,
                 onMouseLeave: this.onMouseLeave,
@@ -172,7 +174,7 @@ export default class extends React.Component {
                 onMouseOut: this.onMouseOut
             }}>
                 { this.renderChildrenWithProps(children, childProps) }
-            </div>
+            </Wrapper>
         );
     }
 };
